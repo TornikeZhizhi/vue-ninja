@@ -2,13 +2,18 @@
   <div class="navbar">
     <nav class="nav-extended inidgo darken-2">
       <div class="nav-content">
-        <router-link to="">
+        <!-- <router-link to="/"> -->
+        <router-link to="/">
           <span class="nav-title">Ninja Smoothies</span>
         </router-link>
-        <a href="" class="btn-floating btn-large halfway-fab pink">
-          <router-lnk to="">
+        <!-- </router-link> -->
+        <a href class="btn-floating btn-large halfway-fab pink">
+          <!-- <router-lnk to="/"> -->
+          <router-link :to="{name:'AddSmoothie'}">
             <i class="material-icons">add</i>
-          </router-lnk>
+          </router-link>
+          <!-- </router-lnk> -->
+          d
         </a>
       </div>
     </nav>

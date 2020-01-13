@@ -12,38 +12,58 @@
           <span class="chip">{{ ing }}</span>
         </li>
       </ul>
+      <span class="btn-floating btn-large haldway-fab pink">
+        <router-link
+          :to="{
+            name: 'EditSmoothie',
+            params: {
+              smoothie_slug: smoothie.slug
+            }
+          }"
+        >
+          <i class="material-icons edit">edit</i>
+        </router-link>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
+import db from "@/firebase/init";
+
 export default {
   name: "Index",
   data() {
     return {
-      smoothies: [
-        {
-          title: "Ninja Brew",
-          slug: "ninja-bew",
-          ingredients: ["banans", "coffee", "milk"],
-          id: "1"
-        },
-        {
-          title: "Morning Mood",
-          slug: "morning-mood",
-          ingredients: ["mandgo", "lime", "juce"],
-          id: "2"
-        }
-      ]
+      smoothies: []
     };
   },
   methods: {
     deleteSmoothie(id) {
       console.log(id);
-      this.smoothies = this.smoothies.filter(el => {
-        return el.id !== id;
-      });
+
+      db.collection("smoothies")
+        .doc(id)
+        .delete()
+        .then(() => {
+          this.smoothies = this.smoothies.filter(el => {
+            return el.id !== id;
+          });
+        });
     }
+  },
+  created() {
+    db.collection("smoothies")
+      .get()
+      .then(snapshot => {
+        // console.log(snapshot);
+        snapshot.forEach(doc => {
+          let smoothie = doc.data();
+          smoothie.id = doc.id;
+          this.smoothies.push(smoothie);
+          console.log(this.smoothies);
+        });
+      });
   }
 };
 </script>
